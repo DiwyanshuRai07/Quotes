@@ -1,0 +1,52 @@
+package com.quotes.presentation.screens.homeScreen.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.quotes.domain.models.HOmeQuotesDC
+
+@Composable
+fun HomeBody(
+    hOmeQuotesDC: HOmeQuotesDC,
+    onclick: (id: String) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+
+        item {
+            HeadingTitle(title = "Random Quote")
+            hOmeQuotesDC.randomQuote?.let { RandomQuotesItem(quotesDC = it) }
+        }
+
+        item {
+            HeadingTitle(title = "Quotes")
+        }
+
+        items(hOmeQuotesDC.allQuotesList ?: emptyList()) {
+            QuotesItem(
+                quotesDC = it,
+                modifier = Modifier.clickable{
+                    onclick(it.id.toString())
+                }
+            )
+        }
+
+
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeBodyPreview() {
+    HomeBody(HOmeQuotesDC()){}
+}
